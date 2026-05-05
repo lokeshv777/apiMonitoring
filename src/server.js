@@ -11,4 +11,6 @@ connectDB();
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log('ATLAS_URL:', process.env.ATLAS_URL);
+  console.log('JWT_SECRET:', process.env.JWT_SECRET);
 });
