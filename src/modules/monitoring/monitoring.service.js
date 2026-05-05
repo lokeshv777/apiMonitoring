@@ -28,7 +28,7 @@ const checkApis = async () => {
         );
 
         if (isSuccess) {
-          console.log(`✅ API UP : ${api.url}`);
+          console.log(`✅ API UP: ${api.url}`);
 
           // If previously DOWN → send recovery email
           if (api.isAlertSent) {
