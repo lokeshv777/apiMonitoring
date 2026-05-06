@@ -1,8 +1,13 @@
 const axios = require('axios');
+const http = require('http');
 const Log = require('../logs/logs.model');
 const Api = require('../api/api.model');
 const User = require('../auth/auth.model');
 const sendEmail = require('../../utils/email');
+
+const httpAgent = new http.Agent({
+  family: 4, // ⭐ FORCE IPv4
+});
 
 // Check All APIs
 const checkApis = async () => {
@@ -17,6 +22,7 @@ const checkApis = async () => {
           method: api.method,
           url: api.url,
           timeout: 5000,
+          httpAgent,
         });
 
         const responseTime = Date.now() - startTime;
