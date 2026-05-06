@@ -2,8 +2,12 @@ const corn = require('node-cron');
 
 const { checkApis } = require('../modules/monitoring/monitoring.service');
 
-corn.schedule('* * * * *', async () => {
-  console.log('Running API Monitor');
+if (process.env.CRONJOB === true) {
+  corn.schedule('* * * * *', async () => {
+    console.log('Running API Monitor');
 
-  await checkApis();
-});
+    await checkApis();
+  });
+} else {
+  console.log('Cron job disabled by env variable');
+}
