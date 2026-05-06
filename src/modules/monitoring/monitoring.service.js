@@ -42,7 +42,7 @@ const checkApis = async () => {
           console.log(`✅ API UP: ${api.url}`);
 
           // If previously DOWN → send recovery email
-          if (api.isAlertSent) {
+          if (api.isAlertSent && response.status === 200) {
             const user = await User.findById(api.userId);
             if (!user) {
               console.log('User not found for Api', api.url);
