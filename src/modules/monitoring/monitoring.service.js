@@ -21,7 +21,7 @@ const checkApis = async () => {
         const response = await axios({
           method: api.method,
           url: api.url,
-          timeout: 5000,
+          timeout: 15000,
           httpAgent,
         });
 
@@ -65,6 +65,8 @@ const checkApis = async () => {
         const responseTime = Date.now() - startTime;
 
         console.log(`❌ API ERROR: ${api.url}`);
+        console.log('Error message:', error.message);
+        console.log('Error code:', error.code);
 
         // Send alert only once
         if (!api.isAlertSent) {
