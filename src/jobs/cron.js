@@ -1,4 +1,4 @@
-const corn = require('node-cron');
+const cron = require('node-cron');
 
 const { checkApis } = require('../modules/monitoring/monitoring.service');
 
