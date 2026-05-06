@@ -22,7 +22,12 @@ const checkApis = async () => {
           method: api.method,
           url: api.url,
           timeout: 15000,
+          validateStatus: () => true,
           httpAgent,
+          headers: {
+            'User-Agent': 'API-Monitoring-SaaS',
+            Accept: 'application/json',
+          },
         });
 
         const responseTime = Date.now() - startTime;
