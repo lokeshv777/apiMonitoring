@@ -1,6 +1,19 @@
 const Log = require('./logs.model');
+const { redisClient } = require('../../config/redis');
 
 const getApiMetrics = async (userId, apiId) => {
+  const cacheKey = `metrics:${apiId}`;
+
+  const cacheData = await redisClient.get(cacheKey);
+
+  if (cacheData) {
+    console.log('⚡ Cache HIT');
+
+    return JSON.parse(cacheData);
+  }
+
+  console.log('❌ Cache MISS');
+
   const logs = await Log.find({ apiId, userId });
 
   const totalChecks = logs.length;
@@ -37,7 +50,7 @@ const getApiMetrics = async (userId, apiId) => {
   const downtime = (failedChecks / totalChecks) * 100;
   const avgResponseTime = totalResponseTime / totalChecks;
 
-  return {
+  const metrics = {
     uptime: uptime.toFixed(2),
     downtime: downtime.toFixed(2),
     avgResponseTime: Math.round(avgResponseTime),
@@ -45,6 +58,12 @@ const getApiMetrics = async (userId, apiId) => {
     successChecks,
     failedChecks,
   };
+
+  await redisClient.set(cacheKey, JSON.stringify(metrics), {
+    EX: 60,
+  });
+
+  return metrics;
 };
 
 module.exports = { getApiMetrics };

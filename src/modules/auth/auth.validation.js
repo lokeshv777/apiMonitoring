@@ -5,8 +5,12 @@ const registerValidation = [
   body('email').isEmail().withMessage('Valid email is required'),
 
   body('password')
-    .isLength({ min: 6 })
-    .withMessage('Password must be at least 6 characters'),
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+    )
+    .withMessage(
+      'Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character',
+    ),
 ];
 
 // Login Validation Rules

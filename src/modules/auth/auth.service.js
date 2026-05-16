@@ -6,11 +6,15 @@ const {
   verifyToken,
 } = require('../../utils/jwt');
 
-const registerUser = async (email, password) => {
+const registerUser = async (email, password, confirmPassword) => {
   const existingUser = await User.findOne({ email });
 
   if (existingUser) {
     throw new Error('User already exists');
+  }
+
+  if (password !== confirmPassword) {
+    throw new Error('Password do not match');
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);

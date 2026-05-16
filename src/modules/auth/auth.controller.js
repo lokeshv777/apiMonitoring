@@ -7,9 +7,9 @@ const {
 
 const register = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, confirmPassword } = req.body;
 
-    const result = await registerUser(email, password);
+    const result = await registerUser(email, password, confirmPassword);
 
     res.status(201).json({
       success: true,
